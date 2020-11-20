@@ -1,0 +1,118 @@
+.movingHead {
+  animation: moveHead 3s infinite;
+}
+
+@keyframes moveHead {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  30% {
+    transform: rotate(9deg)
+  }
+
+  60% {
+    transform: rotate(-4deg)
+  }
+
+  100% {
+    transform: rotate(0);
+  }
+}
+
+.movingStickRight {
+  animation: moveStickRight 2s infinite;
+}
+
+@keyframes moveStickRight {
+  0% {
+    transform: rotate(-0.5turn);
+  }
+
+  30% {
+    transform: rotate(-0.5turn);
+  }
+
+  60% {
+    transform: rotate(-0.75turn);
+  }
+
+  100% {
+    transform: rotate(4turn);
+  }
+}
+
+.movingStickLeft {
+  animation: moveStickLeft 2s infinite;
+}
+
+@keyframes moveStickLeft {
+  0% {
+    transform: rotate(-0.5turn);
+  }
+
+  30% {
+    transform: rotate(-22deg)
+  }
+
+  60% {
+    transform: rotate(22deg)
+  }
+
+  80% {
+    transform: rotate(0.5turn);
+  }
+
+  90% {
+    transform: scale(0.5) translate(-100%, -100%);
+  }
+
+  100% {
+    transform: scale(0.5) translate(100%, 100%);
+  }
+}
+
+/* Als ik movingWings gebruik op beide div ears en div eyes krijg ik een dikke spacende cat*/
+.movingWings {
+  animation: moveWings 5s infinite;
+}
+
+@keyframes moveWings {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  20% {
+    transform: rotate(30deg);
+  }
+
+  50% {
+    transform: rotate(-30deg);
+  }
+
+  100% {
+    transform: rotate(0deg);
+  }
+}
+
+.movingWings2 {
+  animation: moveWings2 5s infinite;
+}
+
+@keyframes moveWings2 {
+  0% {
+    transform: translate(-20px, -10px);
+  }
+
+  20% {
+    transform: translate(20px, 10px);
+  }
+
+  50% {
+    transform: translate(30px, 20px);
+  }
+
+  100% {
+    transform: translate(-20px, -10px);
+  }
+}
