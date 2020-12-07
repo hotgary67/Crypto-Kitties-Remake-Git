@@ -3,6 +3,7 @@
 pragma solidity ^0.5.12;
 pragma experimental ABIEncoderV2;
 import "./IERC721.sol";
+import "./IERC721Receiver.sol";
 import "./Ownable.sol";
 
 contract Kittycontract is IERC721, Ownable {
@@ -20,8 +21,19 @@ contract Kittycontract is IERC721, Ownable {
         uint256 indexed tokenId
     );
 
+    event ApprovalForAll(
+        address owner,
+        address _operator
+        //  uint256 allKittiesOwnedByAddress
+    );
+
     string public constant name = "Crazy Cats";
     string public constant symbol = "CCS";
+    bytes4 internal constant MAGIC_ERC721_RECEIVED = bytes4(
+        keccak256("onERC721Received(address,address,uint256,bytes)")
+    );
+    bytes4 private constant _INTERFACE_ID_ERC721 = 0x80ac58cd;
+    bytes4 private constant _INTERFACE_ID_ERC165 = 0x01ffc9a7;
 
     struct Kitty {
         uint256 genes;
@@ -30,32 +42,44 @@ contract Kittycontract is IERC721, Ownable {
         uint32 dadId;
         uint16 generation;
     }
-    
+
     Kitty[] Kitties;
 
     mapping(uint256 => address) public tokenOwner;
     mapping(address => uint256) private totalTokenCountOwner;
 
-    mapping (uint256 => address) public kittyIndexToApproved;
-    mapping (address => mapping (address => bool)) private _operatorApprovals;
-     
+    mapping(uint256 => address) public kittyIndexToApproved;
+    mapping(address => mapping(address => bool)) private _operatorApprovals;
 
     //uitleg mapping array https://medium.com/coinmonks/array-and-map-in-solidity-a579b311d74b
-    
-    mapping (address => uint[]) internal allKittiesOwnedByAddress;
-   //     mapping (address => uint[]) internal allKittiesOwnedByAddress;
-    
+
+    mapping(address => uint256[]) internal allKittiesOwnedByAddress;
+
+    //     mapping (address => uint[]) internal allKittiesOwnedByAddress;
+
     //nr2  mapping(uint => uint) internal tokenTokenIndexes;
     //deze hierboven zouden de juist moeten zijn voor all tokens owned by address
     //nr 2 van de mapping wordt gebrtuik om de positie van de token in de array te bepalen
     //https://medium.com/@anallergytoanalogy/jumping-into-solidity-the-erc721-standard-part-7-9aca1411375a
-    
-    
-    function createKittyGen0(uint256 _genes) public onlyOwner returns(uint256) {
-       //owner = msg.sender;
 
-       uint256 result = _createKitty(0, 0, 0, _genes, owner);
-       return result;
+    function supportsInterface(bytes4 _interfaceId)
+        external
+        view
+        returns (bool)
+    {
+        return (_interfaceId == _INTERFACE_ID_ERC721 ||
+            _interfaceId == _INTERFACE_ID_ERC165);
+    }
+
+    function createKittyGen0(uint256 _genes)
+        public
+        onlyOwner
+        returns (uint256)
+    {
+        //owner = msg.sender;
+
+        uint256 result = _createKitty(0, 0, 0, _genes, owner);
+        return result;
     }
 
     function _createKitty(
@@ -74,20 +98,18 @@ contract Kittycontract is IERC721, Ownable {
         });
 
         uint256 newKittenId = Kitties.push(_kitty) - 1;
-       // allKittiesOwnedByAddress[newKittenId].push(uint);
-       
-     //   allKittiesOwnedByAddress[msg.sender].push(newKittenId);
-       allKittiesOwnedByAddress[owner].push(newKittenId);
-        
-        
+        // allKittiesOwnedByAddress[newKittenId].push(uint);
+
+        //   allKittiesOwnedByAddress[msg.sender].push(newKittenId);
+        allKittiesOwnedByAddress[owner].push(newKittenId);
+
         //   ownerTokenIndexes[creator].push(i+1);
-    
+
         emit Birth(_owner, newKittenId, _mumId, _dadId, _genes, _generation);
 
         _transfer(address(0), _owner, newKittenId);
-        
+
         return newKittenId;
-  
     }
 
     function getKitty(uint256 tokenId)
@@ -110,7 +132,6 @@ contract Kittycontract is IERC721, Ownable {
         );
     }
 
-
     function balanceOf(address owner) external view returns (uint256 balance) {
         return totalTokenCountOwner[owner];
     }
@@ -130,7 +151,6 @@ contract Kittycontract is IERC721, Ownable {
     function ownerOf(uint256 tokenId) external view returns (address owner) {
         return tokenOwner[tokenId];
     }
-    
 
     function transfer(address to, uint256 tokenId) external {
         require(tokenOwner[tokenId] != address(0), "This token does not exist");
@@ -170,36 +190,173 @@ contract Kittycontract is IERC721, Ownable {
 
         emit Transfer(_from, _to, _tokenId);
     }
-      
-      function getAllKittiesIOwn(address owner) public view returns(uint[] memory) {
-   //   allKittyiesOwnedbyUser =; 
-    
-      return allKittiesOwnedByAddress[owner];
-   
-      }
 
+    function getAllKittiesIOwn(address owner)
+        public
+        view
+        returns (uint256[] memory)
+    {
+        //   allKittyiesOwnedbyUser =;
 
-//function approve(address _approved, uint256 _tokenId) external onlyOwner {
-      
-  //  require(
-    //        tokenOwner[tokenId] == msg.sender || tokenOwner[tokenId] == msg.sender;,
-      //      "You are not the owner of this Kitty"
-        //);
-    
-  //   kittyIndexToApproved[_tokenId]  = _approved;
-// !! TOEVOEGEN : or an authorized  operator of the current owner.
+        return allKittiesOwnedByAddress[owner];
+    }
 
-   // address addressCurrentOwner = tokenOwner;
-   // address addressNewOwner = _approved;
+    function approve(address _approved, uint256 _tokenId) external {
+        require(
+            tokenOwner[_tokenId] == msg.sender ||
+                kittyIndexToApproved[_tokenId] == msg.sender,
+            "You are not the owner of this Kitty"
+        );
+        kittyIndexToApproved[_tokenId] = _approved;
 
-    //tokenOwner[tokenId] = addressNewOwner;
+        // address addressCurrentOwner = tokenOwner;
+        // address addressNewOwner = _approved;
 
-   // totalTokenCountOwner[address]++;
-   // totalTokenCountOwner[msg.sender]--;
-   // kittyIndexToApproved[_tokenId]++;
-    
+        //tokenOwner[tokenId] = addressNewOwner;
 
+        // totalTokenCountOwner[address]++;
+        // totalTokenCountOwner[msg.sender]--;
+        // kittyIndexToApproved[_tokenId]++;
 
+        // !! TOEVOEGEN : or an authorized  operator of the current owner.
+        // kittyIndexToApproved
+    }
 
-//}
+    function getApproved(uint256 _tokenId) external view returns (address) {
+        require(_tokenId < Kitties.length);
+        return kittyIndexToApproved[_tokenId];
+    }
+
+    function setApprovalForAll(address _operator, bool _approved)
+        external
+        onlyOwner
+    {
+        _operatorApprovals[msg.sender][_operator] = _approved;
+
+        emit ApprovalForAll(owner, _operator);
+
+        //   return _operatorApprovals[]
+    }
+
+    function isApprovedForAll(address _owner, address _operator)
+        external
+        view
+        returns (bool)
+    {
+        if (_operatorApprovals[_owner][_operator] == true) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    function transferFrom(
+        address _from,
+        address _to,
+        uint256 _tokenId
+    ) external {
+        require(
+            tokenOwner[_tokenId] == msg.sender ||
+                kittyIndexToApproved[_tokenId] == msg.sender ||
+                _operatorApprovals[_from][msg.sender] == true,
+            "You are not the owner of this Kitty"
+        );
+
+        require(_to != address(0), "Cannot send to zero address");
+        require(
+            _from == tokenOwner[_tokenId],
+            "This is not the address of the Token Owner"
+        );
+
+        totalTokenCountOwner[_to]++;
+
+        tokenOwner[_tokenId] = _to;
+
+        if (_from != address(0)) {
+            totalTokenCountOwner[_from]--;
+        }
+
+        emit Transfer(_from, _to, _tokenId);
+    }
+
+    function _safeTransfer(
+        address _from,
+        address _to,
+        uint256 _tokenId,
+        bytes memory _data
+    ) internal {
+        _transfer(_from, _to, _tokenId);
+        require(_checkERC721Support(_from, _to, _tokenId, _data));
+    }
+
+    function safeTransferFrom(
+        address _from,
+        address _to,
+        uint256 _tokenId,
+        bytes calldata data
+    ) external {
+        require(
+            tokenOwner[_tokenId] == msg.sender ||
+                kittyIndexToApproved[_tokenId] == msg.sender ||
+                _operatorApprovals[_from][msg.sender] == true,
+            "You are not the owner of this Kitty"
+        );
+
+        require(_to != address(0), "Cannot send to zero address");
+        require(
+            _from == tokenOwner[_tokenId],
+            "This is not the address of the Token Owner"
+        );
+
+        _safeTransfer(_from, _to, _tokenId, data);
+    }
+
+    function safeTransferFrom(
+        address _from,
+        address _to,
+        uint256 _tokenId
+    ) external {
+        require(
+            tokenOwner[_tokenId] == msg.sender ||
+                kittyIndexToApproved[_tokenId] == msg.sender ||
+                _operatorApprovals[_from][msg.sender] == true,
+            "You are not the owner of this Kitty"
+        );
+
+        require(_to != address(0), "Cannot send to zero address");
+        require(
+            _from == tokenOwner[_tokenId],
+            "This is not the address of the Token Owner"
+        );
+
+        _safeTransfer(_from, _to, _tokenId, "");
+    }
+
+    function _checkERC721Support(
+        address _from,
+        address _to,
+        uint256 _tokenId,
+        bytes memory _data
+    ) internal returns (bool) {
+        if (!_isContract(_to)) {
+            return true;
+        }
+
+        bytes4 returnData = IERC721Receiver(_to).onERC721Received(
+            msg.sender,
+            _from,
+            _tokenId,
+            _data
+        );
+        return returnData == MAGIC_ERC721_RECEIVED;
+    }
+
+    function _isContract(address _to) internal view returns (bool) {
+        uint32 size;
+
+        assembly {
+            size := extcodesize(_to)
+        }
+        return size > 0;
+    }
 }
