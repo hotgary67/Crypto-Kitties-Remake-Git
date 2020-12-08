@@ -62,6 +62,26 @@ contract Kittycontract is IERC721, Ownable {
     //nr 2 van de mapping wordt gebrtuik om de positie van de token in de array te bepalen
     //https://medium.com/@anallergytoanalogy/jumping-into-solidity-the-erc721-standard-part-7-9aca1411375a
 
+    function breed(uint256 _dadId, uint256 _mumId) public returns (uint256) {
+        
+        //check Ownership should revert if sender does not own the mom or dad kitties
+      require(tokenOwner[_dadId] == msg.sender && tokenOwner[_mumId] == msg.sender);
+
+     (uint dadGenes, , , ,uint generationDad) = getKitty(_dadId);
+     (uint mumGenes, , , ,uint generationMum) = getKitty(_mumId);
+
+    
+     // --> HIERBOVEN GAAT NOG IETS MIs, WEET NIET WAAROM IE DE GENES NIET PAKT EN MET ERROR KOMT 
+    uint256 newDna = _mixDna(dadGenes, mumGenes);
+    
+    uint256 newBornGenerationNumber = generationMum + 1;
+       
+         //give it to msg.sender
+        _createKitty(_mumId, _dadId, newBornGenerationNumber, newDna, msg.sender);
+   
+    }
+
+
     function supportsInterface(bytes4 _interfaceId)
         external
         view
@@ -358,5 +378,15 @@ contract Kittycontract is IERC721, Ownable {
             size := extcodesize(_to)
         }
         return size > 0;
+    }
+
+    function _mixDna(uint256 _dadDna, uint256 _mumDna) internal returns (uint256) {
+
+        uint256 firstHalf = _dadDna / 100000000;
+        uint256 secondHalf = _mumDna % 100000000;
+
+        uint256 newDna = firstHalf + 100000000;
+        newDna = newDna + secondHalf;
+        return newDna;
     }
 }
