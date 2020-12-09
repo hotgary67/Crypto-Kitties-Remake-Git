@@ -278,7 +278,8 @@ function decorationWings(num, i="factory") {
 function randomDecorationWings(num) {
   var num = filterOnetoFive(num);
   decorationWings(num);
-  $("#wingshapedec").val(num);
+  $("#kittyId" + i)
+  .find$("#wingshapedec").val(num);
 }
 
 function normalEyes(i) {
@@ -493,10 +494,10 @@ function normalWings(i) {
 function wings1(i) {
   //Remove all style from other decorations
   //In this way we can also use normalDecoration() to reset the decoration style
-  var code = filterTentoHunderd(code);
+  var code = filterOnetoFive(code);
   var color = allColors(code);
   var colorcode = "#" + color[code];
-  console.log("WINGS1", i)
+  console.log("WINGS1", i, colorcode)
   
   $("#kittyId" + i)
   .find(".left_ear").css({
@@ -512,11 +513,11 @@ function wings1(i) {
 }
 
 function wings2(i) {
-  console.log("WINGS2", i)
+  console.log("WINGS2", i,  colorcode)
   
   //Remove all style from other decorations
   //In this way we can also use normalDecoration() to reset the decoration style
-  var code = filterTentoHunderd(code);
+  var code = filterOnetoFive(code);
   var color = allColors(code);
   var colorcode = "#" + color[code];
 
@@ -535,8 +536,8 @@ function wings2(i) {
 }
 
 function wings3(i) {
-  console.log("WINGS3", i)
-  var code = filterTentoHunderd(code);
+  console.log("WINGS3", i,  colorcode)
+  var code = filterOnetoFive(code);
   var color = allColors(code);
   var colorcode = "#" + color[code];
 
@@ -557,8 +558,8 @@ function wings3(i) {
 }
 
 function wings4(i) {
-  console.log("WINGS4", i)
-  var code = filterTentoHunderd(code);
+  console.log("WINGS4", i,  colorcode)
+  var code = filterOnetoFive(code);
   var color = allColors(code);
   var colorcode = "#" + color[code];
 
@@ -645,34 +646,40 @@ function randomAnimationVariation(num) {
   resetAnimation();
   switch (num) {
     case 1:
-      $("#animationName").html("Lame");
-      animationType1();
+      $("#kittyId" + i)
+  .find("#animationName").html("Lame");
+      animationType1(i);
 
       break;
 
     case 2:
-      $("#animationName").html("Cat got some moves");
-      animationType2();
+      $("#kittyId" + i)
+  .find("#animationName").html("Cat got some moves");
+      animationType2(i);
       break;
 
     case 3:
-      $("#animationName").html("Hajahiiii");
-      animationType3();
+      $("#kittyId" + i)
+  .find("#animationName").html("Hajahiiii");
+      animationType3(i);
       break;
 
     case 4:
-      $("#animationName").html("Master Ninja Cat");
-      animationType4();
+      $("#kittyId" + i)
+  .find("#animationName").html("Master Ninja Cat");
+      animationType4(i);
       break;
 
     case 5:
-      $("#animationName").html("Crazy Ears");
-      animationType5();
+      $("#kittyId" + i)
+  .find("#animationName").html("Crazy Ears");
+      animationType5(i);
       break;
 
     case 6:
-      $("#animationName").html("Fly Away");
-      animationType6();
+      $("#kittyId" + i)
+      .find("#animationName").html("Fly Away");
+      animationType6(i);
   }
 }
 
@@ -706,8 +713,10 @@ function animationType5(i) {
 }
 
 function animationType6(i) {
-  $(".left_ear").addClass("movingWings2");
-  $(".right_ear").addClass("movingWings2");
+  $("#kittyId" + i)
+  .find(".left_ear").addClass("movingWings2");
+  $("#kittyId" + i)
+  .find(".right_ear").addClass("movingWings2");
 }
 
 function resetAnimation() {

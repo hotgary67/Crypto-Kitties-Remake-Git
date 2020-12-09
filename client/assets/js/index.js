@@ -25,7 +25,7 @@ X. tijdelijk aanpassing die ik heb gemaakt is in de css, daar heb ik .vasetest a
 // ik begin met de Vase     <div class="vase"></div>
 
 var web3 = new Web3(Web3.givenProvider);
-var contractAddress = "0x4352454b1dBA92a3BC7a6C498BB4b00a0ad739e4";
+var contractAddress = "0x3d16cd5c7c04Cf2Ef42029A0587102231234b86f";
 var myContract = new web3.eth.Contract(abi, contractAddress);
 console.log(myContract);
 var user;
@@ -120,8 +120,8 @@ $(document).ready(function () {
 
                     let wingGenes =  Number(slicedSingleDigitGenes[2]);
                     console.log("this is WINGSDNA", wingGenes)
-                    let AnimationGenes =  Number(slicedSingleDigitGenes[3]);
-
+                    let animationGenes =  Number(slicedSingleDigitGenes[3]);
+                    console.log("this is ANIMATIONDNA", animationGenes)
                     var catColors = allColors();
 
                     var headAndBodyColorCode = catColors[headAndBodyGenes];
@@ -133,6 +133,9 @@ $(document).ready(function () {
                     var tailColorCode = catColors[tailGenes];
                     var trunkColorCode = catColors[trunkGenes];
                     var vaseColorCode = catColors[vaseGenes];
+                    //
+                    var wingColorCode = catColors[wingGenes];
+                    console.log("wing Color code ", wingColorCode );
 
 
                 
@@ -151,11 +154,9 @@ $(document).ready(function () {
                     );
         
                     var htmlString =
-                      `<div id="kittyId` +
+                      `<div class="d-flex flex-column p-5" id="kittyId` +
                       i +
-                      `"><div class="container">
-                      //HIER CHECKEN ROW VERVANGEN, op html de container en row plaatsen en hier weghalen
-                    <div class="row justify-content-md-center">
+                      `">
                       <div class="col-sm">
                         <div class="hat">
                             <div class="hatlogo">
@@ -274,10 +275,7 @@ $(document).ready(function () {
                               <span class="catColor"></span>
                             </div>
                   
-                          </div>
-                  
-                      </div>
-                     
+                        
                       
                     </div>
                     <br><br><br><br><br><br><br><br><br><br>
@@ -317,11 +315,29 @@ $(document).ready(function () {
                     $("#kittyId" + i)
                       .find(".vase")
                       .css("border-top-color", "#" + vaseColorCode);
+
+            
+                
+                      $("#kittyId" + i)
+                       .find(".left_ear").css({
+                        "box-shadow": "5px 25px 25px -9px",
+                        color: + "#" + wingColorCode,
+                      });
+                      
+                      $("#kittyId" + i)
+                      .find(".right_ear").css({
+                        "box-shadow": "3px -25px 18px -8px",
+                        color: + "#" + wingColorCode,
+                      });
+
+
+                      
+                      
                    
                    eyeVariation(eyeShapeGenes,i);
                    decorationNailVariation(nailShapeGenes,i);
                    decorationWings(wingGenes,i);
-                   animationVariation(AnimationGenes,i);
+                   animationVariation(animationGenes,i);
 
          
                   })
@@ -346,6 +362,20 @@ function sendKittyToBlockChain() {
     if (err) console.log(err);
     else console.log(txHash);
   });
+
+
+
+  /*function breedNewKitty() {
+    let dadKittyDna = "1";
+    let mumKittyDna = "8";
+
+instance.methods.breed(dadKittyDna,mumKittyDna).send({}, function (err, txHash) {
+  if (err) console.log(err);
+  else console.log(txHash);
+});
+*/
+
+
 
   bornKittyPropertiesArray = [];
   myContract.events.Birth(

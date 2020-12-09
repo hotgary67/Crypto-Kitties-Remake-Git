@@ -46,8 +46,6 @@ function filterOnetoSix() {
   return numberTenToHunderd;
 }
 
-
-
 const target = window.document.getElementsByTagName('h1')[0]
 
 const flickerLetter = letter => `<span style="animation: text-flicker-in-glow ${Math.random()*4}s linear both ">${letter}</span>`
@@ -63,3 +61,6 @@ const neonGlory = target => target.innerHTML = flickerAndColorText(target.textCo
 
 neonGlory(target);
 target.onclick = ({ target }) =>  neonGlory(target);
+
+//https://codepen.io/Paulie-D/pen/FsHbd?editors=0100  dit is de link voor de image select tool
+
