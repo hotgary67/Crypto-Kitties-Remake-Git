@@ -13,6 +13,26 @@ body {
   );
 }
 
+.numCatsIOwn {
+  text-align: center;
+}
+.myCatsCapsule {
+  justify-content: center;
+
+
+}
+
+.solokitty {
+margin: 70px;
+margin
+
+}
+
+.myCatsRowsPlusColumns {
+  flex-wrap: wrap;
+  width: 70%;
+  justify-content: left;
+}
 
 .toprow {
 color: white;
