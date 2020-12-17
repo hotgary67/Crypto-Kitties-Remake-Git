@@ -27,6 +27,14 @@ contract Kittycontract is IERC721, Ownable {
         //  uint256 allKittiesOwnedByAddress
     );
 
+   event Approval (
+    address indexed owner,
+    address indexed approved, 
+    uint256 indexed tokenId
+   );
+
+   
+
     string public constant name = "Crazy Cats";
     string public constant symbol = "CCS";
     bytes4 internal constant MAGIC_ERC721_RECEIVED = bytes4(
@@ -66,18 +74,20 @@ contract Kittycontract is IERC721, Ownable {
         
         //check Ownership should revert if sender does not own the mom or dad kitties
       require(tokenOwner[_dadId] == msg.sender && tokenOwner[_mumId] == msg.sender);
+      require(_dadId !=_mumId);
 
      (uint dadGenes, , , ,uint generationDad) = getKitty(_dadId);
      (uint mumGenes, , , ,uint generationMum) = getKitty(_mumId);
 
-    
-     // --> HIERBOVEN GAAT NOG IETS MIs, WEET NIET WAAROM IE DE GENES NIET PAKT EN MET ERROR KOMT 
-    uint256 newDna = _mixDna(dadGenes, mumGenes);
+    uint256 newBornKittyDna = _mixDna(dadGenes, mumGenes);
     
     uint256 newBornGenerationNumber = generationMum + 1;
        
          //give it to msg.sender
-        _createKitty(_mumId, _dadId, newBornGenerationNumber, newDna, msg.sender);
+        _createKitty(_mumId, _dadId, newBornGenerationNumber, newBornKittyDna, msg.sender);
+        
+      
+        return newBornKittyDna;
    
     }
 
@@ -206,6 +216,7 @@ contract Kittycontract is IERC721, Ownable {
 
         if (_from != address(0)) {
             totalTokenCountOwner[_from]--;
+            delete kittyIndexToApproved[_tokenId];
         }
 
         emit Transfer(_from, _to, _tokenId);
@@ -223,23 +234,15 @@ contract Kittycontract is IERC721, Ownable {
 
     function approve(address _approved, uint256 _tokenId) external {
         require(
-            tokenOwner[_tokenId] == msg.sender ||
-                kittyIndexToApproved[_tokenId] == msg.sender,
+            tokenOwner[_tokenId] == msg.sender ,
+         //   ||  kittyIndexToApproved[_tokenId] == msg.sender, 
+         // left this requirment out since it was not part of the assignment
             "You are not the owner of this Kitty"
         );
         kittyIndexToApproved[_tokenId] = _approved;
 
-        // address addressCurrentOwner = tokenOwner;
-        // address addressNewOwner = _approved;
-
-        //tokenOwner[tokenId] = addressNewOwner;
-
-        // totalTokenCountOwner[address]++;
-        // totalTokenCountOwner[msg.sender]--;
-        // kittyIndexToApproved[_tokenId]++;
-
-        // !! TOEVOEGEN : or an authorized  operator of the current owner.
-        // kittyIndexToApproved
+     
+        emit Approval(msg.sender, _approved, _tokenId);
     }
 
     function getApproved(uint256 _tokenId) external view returns (address) {
@@ -249,13 +252,13 @@ contract Kittycontract is IERC721, Ownable {
 
     function setApprovalForAll(address _operator, bool _approved)
         external
-        onlyOwner
+        
     {
+        require(_operator == msg.sender);
         _operatorApprovals[msg.sender][_operator] = _approved;
 
         emit ApprovalForAll(owner, _operator);
 
-        //   return _operatorApprovals[]
     }
 
     function isApprovedForAll(address _owner, address _operator)
@@ -278,7 +281,7 @@ contract Kittycontract is IERC721, Ownable {
         require(
             tokenOwner[_tokenId] == msg.sender ||
                 kittyIndexToApproved[_tokenId] == msg.sender ||
-                _operatorApprovals[_from][msg.sender] == true,
+                isApprovedForAll(_from, msg.sender),
             "You are not the owner of this Kitty"
         );
 
