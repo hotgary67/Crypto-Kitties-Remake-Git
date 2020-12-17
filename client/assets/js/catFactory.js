@@ -241,7 +241,8 @@ function randomDecorationNailVariation(num) {
 }
 
 function decorationWings(num, i="factory") {
-  console.log('WINGSSSS!!!', {num,i})
+  var color ='#' + allColors()[num];
+  console.log('WINGSSSS!!!', {color})
   $("#dnawings").html(num);
   //resetWings();
   switch (num) {
@@ -252,32 +253,33 @@ function decorationWings(num, i="factory") {
     case 2:
       console.log("FAILED WINGS")
       $("#wingNames").html("Failed Wings");
-      wings1(i);
+      wings1(i,color);
       break;
 
     case 3:
       console.log("FAILED WIGNS MIAAAW")
       $("#wingNames").html("Wingy Miaauw");
-      wings2(i);
+      wings2(i,color);
       break;
 
     case 4:
       console.log("WINGS FFLYING CAT")
       $("#wingNames").html("Flying Cat");
 
-      wings3(i);
+      wings3(i,color);
       break;
 
     case 5:
       console.log("FAILED DARK ANGEL WINGS")
       $("#wingNames").html("Dark Angel");
-      wings4(i);
+      wings4(i,color);
   }
 }
 
 
 function decorationWings2(num, i="factory") {
-  console.log('WINGSSSS!!!', {num,i})
+    var color ='#' + allColors()[num];
+  console.log('WINGSSSS!!!', {color})
   $("#dnawings").html(num);
   resetWings();
   switch (num) {
@@ -288,26 +290,26 @@ function decorationWings2(num, i="factory") {
     case 2:
       console.log("FAILED WINGS")
       $("#wingNames").html("Failed Wings");
-      wings1(i);
+      wings1(i,color);
       break;
 
     case 3:
       console.log("FAILED WIGNS MIAAAW")
       $("#wingNames").html("Wingy Miaauw");
-      wings2(i);
+      wings2(i,color);
       break;
 
     case 4:
       console.log("WINGS FFLYING CAT")
       $("#wingNames").html("Flying Cat");
 
-      wings3(i);
+      wings3(i,color);
       break;
 
     case 5:
       console.log("FAILED DARK ANGEL WINGS")
       $("#wingNames").html("Dark Angel");
-      wings4(i);
+      wings4(i,color);
   }
 }
 
@@ -527,56 +529,58 @@ function normalWings(i) {
   });
 }
 
-function wings1(i) {
+function wings1(i,color) {
   //Remove all style from other decorations
   //In this way we can also use normalDecoration() to reset the decoration style
-  var code = filterOnetoFive(code);
-  var color = allColors(code);
-  var colorcode = "#" + color[code];
-  console.log("WINGS1", i, colorcode)
-  
+ // var code = filterOnetoFive(code);
+
+ //var code = filterOnetoFive(code);
+// var color = allColors(code);
+ //var colorcode = "#" + color[code];
+
+
   $("#kittyId" + i)
   .find(".left_ear").css({
     "box-shadow": "5px 25px 25px -9px",
-    color: colorcode,
+    color: color,
   });
   
   $("#kittyId" + i)
   .find(".right_ear").css({
     "box-shadow": "3px -25px 18px -8px",
-    color: colorcode,
+    color: color,
   });
 }
 
-function wings2(i) {
+function wings2(i,color) {
 
   //Remove all style from other decorations
   //In this way we can also use normalDecoration() to reset the decoration style
-  var code = filterOnetoFive(code);
-  var color = allColors(code);
-  var colorcode = "#" + color[code];
-  console.log("WINGS2", i,  colorcode)
+ // var code = filterOnetoFive(code);
+ // var color = allColors(code);
+ // var colorcode = "#" + color[code];
+
 
   
   $("#kittyId" + i)
   .find(".left_ear").css({
     "box-shadow": "-75px 25px 3px 35px",
-    color: colorcode,
+    color: color,
   });
   
   $("#kittyId" + i)
   .find(".right_ear").css({
     "box-shadow": "60px -15px 3px 35px",
-    color: colorcode,
+    color: color,
   });
 }
 
-function wings3(i) {
+function wings3(i,color) {
 
-  var code = filterOnetoFive(code);
-  var color = allColors(code);
-  var colorcode = "#" + color[code];
-  console.log("WINGS3", i,  colorcode)
+ // var code = filterOnetoFive(code);
+ // var color = allColors(code);
+ // var colorcode = "#" + color[code];
+
 
   //Remove all style from other decorations
   //In this way we can also use normalDecoration() to reset the decoration style
@@ -584,22 +588,22 @@ function wings3(i) {
   $("#kittyId" + i)
   .find(".left_ear").css({
     "box-shadow": "-30px -22px 3px 35px",
-    color: colorcode,
+    color: color,
   });
   
   $("#kittyId" + i)
   .find(".right_ear").css({
     "box-shadow": "25px 25px 3px 35px",
-    color: colorcode,
+    color: color,
   });
 }
 
-function wings4(i) {
+function wings4(i,color) {
  
-  var code = filterOnetoFive(code);
-  var color = allColors(code);
-  var colorcode = "#" + color[code];
-  console.log("WINGS4", i,  colorcode)
+  //var code = filterOnetoFive(code);
+  //var color = allColors(code);
+ // var colorcode = "#" + color[code];
+
 
   //Remove all style from other decorations
   //In this way we can also use normalDecoration() to reset the decoration style
@@ -613,7 +617,7 @@ function wings4(i) {
     width: "150px",
     "box-shadow": "20px -25px 18px 18px",
     left: "-70px",
-    color: colorcode,
+    color: color,
   });
   
   $("#kittyId" + i)
@@ -624,7 +628,7 @@ function wings4(i) {
     width: "150px",
     "box-shadow": "20px -25px 18px 18px",
     left: "115px",
-    color: colorcode,
+    color: color
   });
 }
 

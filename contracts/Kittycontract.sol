@@ -178,11 +178,11 @@ contract Kittycontract is IERC721, Ownable {
         return symbol;
     }
 
-    function ownerOf(uint256 tokenId) external view returns (address owner) {
+    function ownerOf(uint256 tokenId) public view returns (address owner) {
         return tokenOwner[tokenId];
     }
 
-    function transfer(address to, uint256 tokenId) external {
+    function transfer(address to, uint256 tokenId) public {
         require(tokenOwner[tokenId] != address(0), "This token does not exist");
         require(
             tokenOwner[tokenId] == msg.sender,
@@ -245,7 +245,7 @@ contract Kittycontract is IERC721, Ownable {
         emit Approval(msg.sender, _approved, _tokenId);
     }
 
-    function getApproved(uint256 _tokenId) external view returns (address) {
+    function getApproved(uint256 _tokenId) public view returns (address) {
         require(_tokenId < Kitties.length);
         return kittyIndexToApproved[_tokenId];
     }
@@ -262,7 +262,7 @@ contract Kittycontract is IERC721, Ownable {
     }
 
     function isApprovedForAll(address _owner, address _operator)
-        external
+        public
         view
         returns (bool)
     {
@@ -279,26 +279,30 @@ contract Kittycontract is IERC721, Ownable {
         uint256 _tokenId
     ) external {
         require(
-            tokenOwner[_tokenId] == msg.sender ||
-                kittyIndexToApproved[_tokenId] == msg.sender ||
-                isApprovedForAll(_from, msg.sender),
+            ownerOf(_tokenId) == msg.sender ||
+                getApproved(_tokenId) == msg.sender ||
+                 isApprovedForAll(_from, msg.sender) == true,
+       
             "You are not the owner of this Kitty"
         );
 
-        require(_to != address(0), "Cannot send to zero address");
-        require(
-            _from == tokenOwner[_tokenId],
-            "This is not the address of the Token Owner"
-        );
+     //   require(_to != address(0), "Cannot send to zero address");
+     //   require(
+     ///       _from == tokenOwner[_tokenId],
+     //       "This is not the address of the Token Owner"
+     //   );
 
-        totalTokenCountOwner[_to]++;
+    //    totalTokenCountOwner[_to]++;
 
-        tokenOwner[_tokenId] = _to;
+    //    tokenOwner[_tokenId] = _to;
 
-        if (_from != address(0)) {
-            totalTokenCountOwner[_from]--;
-        }
-
+   //     if (_from != address(0)) {
+  //          totalTokenCountOwner[_from]--;
+  //      }
+        
+        
+        transfer(_to,  _tokenId);
+       
         emit Transfer(_from, _to, _tokenId);
     }
 
@@ -316,12 +320,14 @@ contract Kittycontract is IERC721, Ownable {
         address _from,
         address _to,
         uint256 _tokenId,
-        bytes calldata data
-    ) external {
-        require(
-            tokenOwner[_tokenId] == msg.sender ||
-                kittyIndexToApproved[_tokenId] == msg.sender ||
-                _operatorApprovals[_from][msg.sender] == true,
+        bytes memory data
+        // was: bytes calldata data  --> maar krijg error dat het memory moet zijn
+    ) public {
+     require(
+            ownerOf(_tokenId) == msg.sender ||
+                getApproved(_tokenId) == msg.sender ||
+                 isApprovedForAll(_from, msg.sender) == true,
+       
             "You are not the owner of this Kitty"
         );
 
@@ -339,22 +345,12 @@ contract Kittycontract is IERC721, Ownable {
         address _to,
         uint256 _tokenId
     ) external {
-        require(
-            tokenOwner[_tokenId] == msg.sender ||
-                kittyIndexToApproved[_tokenId] == msg.sender ||
-                _operatorApprovals[_from][msg.sender] == true,
-            "You are not the owner of this Kitty"
-        );
-
-        require(_to != address(0), "Cannot send to zero address");
-        require(
-            _from == tokenOwner[_tokenId],
-            "This is not the address of the Token Owner"
-        );
-
-        _safeTransfer(_from, _to, _tokenId, "");
+   
+   
+   safeTransferFrom(_from, _to, _tokenId, "");
+   
     }
-
+   
     function _checkERC721Support(
         address _from,
         address _to,
@@ -392,4 +388,6 @@ contract Kittycontract is IERC721, Ownable {
         newDna = newDna + secondHalf;
         return newDna;
     }
+    
+
 }

@@ -87,6 +87,8 @@ function renderCat(dna){
     $("#dnanaildecoration").val(dna.nailshape)
     animationVariation(dna.animation)
     $("#animation").val(dna.animation)
+    wingColor(colors[dna.eyescolor],dna.eyescolor)
+
 }
 
 // Changing cat colors
@@ -139,6 +141,13 @@ $('#vasecolor').change(()=>{
     var colorVal = $('#vasecolor').val()
     vaseColor(colors[colorVal],colorVal)
 })
+
+$('#').change(()=>{    
+    var colorVal = $('#vasecolor').val()
+    wingColor(colors[colorVal],colorVal)
+})
+
+
 
 // $("#kittyId" + i).find   ?
 $('#eyeshape').change(()=>{

@@ -25,7 +25,7 @@ X. tijdelijk aanpassing die ik heb gemaakt is in de css, daar heb ik .vasetest a
 // ik begin met de Vase     <div class="vase"></div>
 
 var web3 = new Web3(Web3.givenProvider);
-var contractAddress = "0x3d16cd5c7c04Cf2Ef42029A0587102231234b86f";
+var contractAddress = "0xDe246B77C4ec86464565Ff02BF1Ece8c2AEAFbF7";
 var myContract = new web3.eth.Contract(abi, contractAddress);
 console.log(myContract);
 var user;
@@ -316,22 +316,7 @@ $(document).ready(function () {
                       .find(".vase")
                       .css("border-top-color", "#" + vaseColorCode);
 
-            
-                
-                      $("#kittyId" + i)
-                       .find(".left_ear").css({
-                        "box-shadow": "5px 25px 25px -9px",
-                         color: + wingColorCode
-                      });
-                      
-                      $("#kittyId" + i)
-                      .find(".right_ear").css({
-                        "box-shadow": "3px -25px 18px -8px",
-                        color: + wingColorCode
-                      });
-
-
-                      
+                                 
                       
                    
                    eyeVariation(eyeShapeGenes,i);
@@ -460,14 +445,15 @@ function sendKittyToBlockChain() {
 
 }
 function breedNewKitty() {
-  let dadKittyDna = "1";
-  let mumKittyDna = "8";
+  let dadKittyDna = "0";
+  let mumKittyDna = "1";
 
 instance.methods.breed(dadKittyDna,mumKittyDna).send({}, function (err, txHash) {
 if  (err) {console.log(err);
 }
 
 else console.log(txHash);
+
 });
 
 }
