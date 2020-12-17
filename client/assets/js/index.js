@@ -154,7 +154,7 @@ $(document).ready(function () {
                     );
         
                     var htmlString =
-                      `<div class="d-flex flex-column p-5" id="kittyId` +
+                      `<div class="d-flex solokitty flex-column p-4" id="kittyId` +
                       i +
                       `">
                       <div class="col-sm">
@@ -321,13 +321,13 @@ $(document).ready(function () {
                       $("#kittyId" + i)
                        .find(".left_ear").css({
                         "box-shadow": "5px 25px 25px -9px",
-                        color: + "#" + wingColorCode,
+                         color: + wingColorCode
                       });
                       
                       $("#kittyId" + i)
                       .find(".right_ear").css({
                         "box-shadow": "3px -25px 18px -8px",
-                        color: + "#" + wingColorCode,
+                        color: + wingColorCode
                       });
 
 
@@ -363,17 +363,6 @@ function sendKittyToBlockChain() {
     else console.log(txHash);
   });
 
-
-
-  /*function breedNewKitty() {
-    let dadKittyDna = "1";
-    let mumKittyDna = "8";
-
-instance.methods.breed(dadKittyDna,mumKittyDna).send({}, function (err, txHash) {
-  if (err) console.log(err);
-  else console.log(txHash);
-});
-*/
 
 
 
@@ -468,5 +457,17 @@ instance.methods.breed(dadKittyDna,mumKittyDna).send({}, function (err, txHash) 
     }
   );
   console.log(bornKittyIdAndDna);
+
+}
+function breedNewKitty() {
+  let dadKittyDna = "1";
+  let mumKittyDna = "8";
+
+instance.methods.breed(dadKittyDna,mumKittyDna).send({}, function (err, txHash) {
+if  (err) {console.log(err);
+}
+
+else console.log(txHash);
+});
 
 }

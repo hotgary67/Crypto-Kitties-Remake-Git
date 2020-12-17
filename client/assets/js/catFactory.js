@@ -243,6 +243,42 @@ function randomDecorationNailVariation(num) {
 function decorationWings(num, i="factory") {
   console.log('WINGSSSS!!!', {num,i})
   $("#dnawings").html(num);
+  //resetWings();
+  switch (num) {
+    case 1:
+      console.log("NO WINGS")
+      $("#wingNames").html("No Wings");
+
+    case 2:
+      console.log("FAILED WINGS")
+      $("#wingNames").html("Failed Wings");
+      wings1(i);
+      break;
+
+    case 3:
+      console.log("FAILED WIGNS MIAAAW")
+      $("#wingNames").html("Wingy Miaauw");
+      wings2(i);
+      break;
+
+    case 4:
+      console.log("WINGS FFLYING CAT")
+      $("#wingNames").html("Flying Cat");
+
+      wings3(i);
+      break;
+
+    case 5:
+      console.log("FAILED DARK ANGEL WINGS")
+      $("#wingNames").html("Dark Angel");
+      wings4(i);
+  }
+}
+
+
+function decorationWings2(num, i="factory") {
+  console.log('WINGSSSS!!!', {num,i})
+  $("#dnawings").html(num);
   resetWings();
   switch (num) {
     case 1:
@@ -277,7 +313,7 @@ function decorationWings(num, i="factory") {
 
 function randomDecorationWings(num) {
   var num = filterOnetoFive(num);
-  decorationWings(num);
+  decorationWings2(num);
   $("#kittyId" + i)
   .find$("#wingshapedec").val(num);
 }
@@ -513,13 +549,13 @@ function wings1(i) {
 }
 
 function wings2(i) {
-  console.log("WINGS2", i,  colorcode)
-  
+
   //Remove all style from other decorations
   //In this way we can also use normalDecoration() to reset the decoration style
   var code = filterOnetoFive(code);
   var color = allColors(code);
   var colorcode = "#" + color[code];
+  console.log("WINGS2", i,  colorcode)
 
   
   $("#kittyId" + i)
@@ -536,10 +572,11 @@ function wings2(i) {
 }
 
 function wings3(i) {
-  console.log("WINGS3", i,  colorcode)
+
   var code = filterOnetoFive(code);
   var color = allColors(code);
   var colorcode = "#" + color[code];
+  console.log("WINGS3", i,  colorcode)
 
   //Remove all style from other decorations
   //In this way we can also use normalDecoration() to reset the decoration style
@@ -558,10 +595,11 @@ function wings3(i) {
 }
 
 function wings4(i) {
-  console.log("WINGS4", i,  colorcode)
+ 
   var code = filterOnetoFive(code);
   var color = allColors(code);
   var colorcode = "#" + color[code];
+  console.log("WINGS4", i,  colorcode)
 
   //Remove all style from other decorations
   //In this way we can also use normalDecoration() to reset the decoration style
@@ -602,6 +640,43 @@ $(".right_ear").css({
 }
 
 function animationVariation(num, i="factory") {
+  console.log('ANIMMAAAATIONNNNN', {num,i})
+  $("#dnaanimation").html(num);
+ // resetAnimation();
+  switch (num) {
+    case 1:
+      $("#animationName").html("Lame");
+      animationType1(i);
+      break;
+
+    case 2:
+      $("#animationName").html("Cat got some moves");
+      animationType2(i);
+      break;
+
+    case 3:
+      $("#animationName").html("Hajahiiii");
+      animationType3(i);
+      break;
+
+    case 4:
+      $("#animationName").html("Master Ninja Cat");
+      animationType4(i);
+      break;
+
+    case 5:
+      $("#animationName").html("Crazy Ears");
+      animationType5(i);
+      break;
+
+    case 6:
+      $("#animationName").html("Fly Away");
+      animationType6(i);
+      break;
+  }
+}
+
+function animationVariation2(num, i="factory") {
   console.log('ANIMMAAAATIONNNNN', {num,i})
   $("#dnaanimation").html(num);
   resetAnimation();

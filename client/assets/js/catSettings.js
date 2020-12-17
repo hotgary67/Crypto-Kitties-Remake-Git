@@ -158,7 +158,17 @@ $('#wingshapedec').change(()=>{
    decorationWings(shape)
 })
 
+$('#wingshapedec2').change(()=>{
+    var shape = parseInt($('#wingshapedec2').val())
+   decorationWings2(shape)
+})
+
 $('#animation').change(()=>{
     var animationVal = parseInt($('#animation').val())
   animationVariation(animationVal)
+})
+
+$('#animation2').change(()=>{
+    var animationVal = parseInt($('#animation2').val())
+  animationVariation2(animationVal)
 })
