@@ -1,31 +1,6 @@
-/*
-
-CLEANUP!!! 
-1. alle dna code oproepen met functies, is netter dan hoe het nu staat
-
-
---> WAAR IK BEN GEBLEVEN!!
-ik moet de functies zien aan te roepen om eyeshape enzo aan te passen
---> 
-
-1. lijn 68  .getKitty("3") pakt nu fixed cat nr 3 uit de  .getAllKittiesIOwn()(lijn 37) array
-  --> Todo is dat per div de kitty dynamic gepakt wordt
-2. lijn 130-131 kan ik met allCatColors() de vaas kleur aanpassen aan de hand van de genes van  .getKitty("3")
- -> Todo is dat die functie gebruikt wordt bij het dynamic gedeelte
- 3. mijn 67 .getKitty(i) dan gebruiken in functie getAllKittiesIOwn() (lijn 42) om per cat de juist genen op te roepen? En wellicht meer dan dat bijv ook de specs?
-
-X. tijdelijk aanpassing die ik heb gemaakt is in de css, daar heb ik .vasetest aangemaakt, copypaste .vase puur als test, dit moet later veranderd worden
-
-*/
-
-//huidige plan, ik kan met de allCatColors() en de juiste code erin de correct kleur oproepen door het Gene nr in te voeren
-// --> dit gebruiken om de kleuren aan te passen van de mycats
-// Functie maken die een cat renderd. Ik kan voorbeeld nemen aan de random kat functie maar dan
-// anders dat ie niet randomized op klik maar alleen laat zien afh van Genes values
-// ik begin met de Vase     <div class="vase"></div>
 
 var web3 = new Web3(Web3.givenProvider);
-var contractAddress = "0x36ba281c381E3CA3621f2d060624AaDC33465DC6";
+var contractAddress = "0xa6a265c0246928aDBed4e729d3217d758C3FC01F";
 var myContract = new web3.eth.Contract(abi, contractAddress);
 console.log(myContract);
 var user;

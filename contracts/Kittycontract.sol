@@ -354,7 +354,7 @@ contract Kittycontract is IERC721, Ownable {
     }
 
     function _mixDna(uint256 _dadDna, uint256 _mumDna) internal returns (uint256) {
-                
+               
         
       if (now % 2 == 0 ) {
          
@@ -364,17 +364,16 @@ contract Kittycontract is IERC721, Ownable {
         uint256 newDna = firstHalf * 100000000000 ;
         newDna = newDna + secondHalf;
         
-            } if (now % 2 != 0 ) {
+            }    if (now % 2 != 0 ) {
         uint256 firstHalf = _mumDna  /  100000000000;
         uint256 secondHalf = _dadDna %  100000000000;
 
         uint256 newDna = firstHalf * 100000000000 ;
         newDna = newDna + secondHalf;
-        
+        return newDna;
         }
-        // wil er van makne als Now == dan firsthalf is firsthalf en andere is secondhalf firsthalf
 
-    
+
 
 }
 }
