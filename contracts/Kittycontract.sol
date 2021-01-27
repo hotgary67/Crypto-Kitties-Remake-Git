@@ -1,11 +1,3 @@
-//toDO  :
-// 1.      loop maken voor functie getAllKittiesIOwn ipv die extra mapping:
-// 2.      Try to aim at less code duplication if you use the same logic more than 2x/3x, especially in Solidity. 
-//         You want the contracts to be as less vulnerable as possible. This is why you see Filip making small utility
-//         functions that he reuses every time (like _owns, _approvedFor, _isApprovedOrOwner, _transfer etc.). If you do 
-//         this, you will see that the code is more secure, easier to test, and easier to read and maintain. This wont be a 
-//         big deal right now, but becomes more important when you work on larger projects, in teams or with real money/Eth in production 
-
 pragma solidity ^0.5.12;
 pragma experimental ABIEncoderV2;
 import "./IERC721.sol";
@@ -65,16 +57,10 @@ contract Kittycontract is IERC721, Ownable {
     mapping(uint256 => address) public kittyIndexToApproved;
     mapping(address => mapping(address => bool)) private _operatorApprovals;
 
-    //uitleg mapping array https://medium.com/coinmonks/array-and-map-in-solidity-a579b311d74b
 
     mapping(address => uint256[]) internal allKittiesOwnedByAddress;
 
-    //     mapping (address => uint[]) internal allKittiesOwnedByAddress;
-
-    //nr2  mapping(uint => uint) internal tokenTokenIndexes;
-    //deze hierboven zouden de juist moeten zijn voor all tokens owned by address
-    //nr 2 van de mapping wordt gebrtuik om de positie van de token in de array te bepalen
-    //https://medium.com/@anallergytoanalogy/jumping-into-solidity-the-erc721-standard-part-7-9aca1411375a
+ 
 
     function breed(uint256 _dadId, uint256 _mumId) public returns (uint256) {
         
@@ -112,7 +98,6 @@ contract Kittycontract is IERC721, Ownable {
         onlyOwner
         returns (uint256)
     {
-        //owner = msg.sender;
 
         uint256 result = _createKitty(0, 0, 0, _genes, owner);
         return result;
@@ -134,13 +119,11 @@ contract Kittycontract is IERC721, Ownable {
         });
 
         uint256 newKittenId = Kitties.push(_kitty) - 1;
-        // allKittiesOwnedByAddress[newKittenId].push(uint);
+     
 
-        //   allKittiesOwnedByAddress[msg.sender].push(newKittenId);
         allKittiesOwnedByAddress[owner].push(newKittenId);
 
-        //   ownerTokenIndexes[creator].push(i+1);
-
+  
         emit Birth(_owner, newKittenId, _mumId, _dadId, _genes, _generation);
 
         _transfer(address(0), _owner, newKittenId);
@@ -233,7 +216,6 @@ contract Kittycontract is IERC721, Ownable {
         view
         returns (uint256[] memory)
     {
-        //   allKittyiesOwnedbyUser =;
 
         return allKittiesOwnedByAddress[owner];
     }
@@ -241,8 +223,7 @@ contract Kittycontract is IERC721, Ownable {
     function approve(address _approved, uint256 _tokenId) external {
         require(
             tokenOwner[_tokenId] == msg.sender ,
-         //   ||  kittyIndexToApproved[_tokenId] == msg.sender, 
-         // left this requirment out since it was not part of the assignment
+     
             "You are not the owner of this Kitty"
         );
         kittyIndexToApproved[_tokenId] = _approved;
@@ -292,20 +273,7 @@ contract Kittycontract is IERC721, Ownable {
             "You are not the owner of this Kitty"
         );
 
-     //   require(_to != address(0), "Cannot send to zero address");
-     //   require(
-     ///       _from == tokenOwner[_tokenId],
-     //       "This is not the address of the Token Owner"
-     //   );
 
-    //    totalTokenCountOwner[_to]++;
-
-    //    tokenOwner[_tokenId] = _to;
-
-   //     if (_from != address(0)) {
-  //          totalTokenCountOwner[_from]--;
-  //      }
-        
         
         transfer(_to,  _tokenId);
        
@@ -327,7 +295,7 @@ contract Kittycontract is IERC721, Ownable {
         address _to,
         uint256 _tokenId,
         bytes memory data
-        // was: bytes calldata data  --> maar krijg error dat het memory moet zijn
+  
     ) public {
      require(
             ownerOf(_tokenId) == msg.sender ||
@@ -386,14 +354,27 @@ contract Kittycontract is IERC721, Ownable {
     }
 
     function _mixDna(uint256 _dadDna, uint256 _mumDna) internal returns (uint256) {
-
+                
+        
+      if (now % 2 == 0 ) {
+         
         uint256 firstHalf = _dadDna  /  100000000000;
         uint256 secondHalf = _mumDna %  100000000000;
 
         uint256 newDna = firstHalf * 100000000000 ;
         newDna = newDna + secondHalf;
-        return newDna;
-    }
+        
+            } if (now % 2 != 0 ) {
+        uint256 firstHalf = _mumDna  /  100000000000;
+        uint256 secondHalf = _dadDna %  100000000000;
+
+        uint256 newDna = firstHalf * 100000000000 ;
+        newDna = newDna + secondHalf;
+        
+        }
+        // wil er van makne als Now == dan firsthalf is firsthalf en andere is secondhalf firsthalf
+
     
 
+}
 }
