@@ -25,7 +25,7 @@ X. tijdelijk aanpassing die ik heb gemaakt is in de css, daar heb ik .vasetest a
 // ik begin met de Vase     <div class="vase"></div>
 
 var web3 = new Web3(Web3.givenProvider);
-var contractAddress = "0xDe246B77C4ec86464565Ff02BF1Ece8c2AEAFbF7";
+var contractAddress = "0x3511b4C0380F98519B979E7aAB39457a82E0F27E";
 var myContract = new web3.eth.Contract(abi, contractAddress);
 console.log(myContract);
 var user;
@@ -281,8 +281,147 @@ $(document).ready(function () {
                     <br><br><br><br><br><br><br><br><br><br>
                   </div></div>`;
 
+
+                  var htmlString2 =
+                  `<div class="d-flex solokitty flex-column p-4" id="kittyId` +
+                  i +
+                  `"><div class="checkboxdiv checkboxes id="checkboxinput `+ i + `">
+                  
+                  <input type="checkbox" class="single-checkbox2" name="test" value="`+ i + `"/ id="r`+ i + `">
+                  <label for="r`+ i + ` ">Kitty Id:` + ` ` + i + ` <br> Dna:` + ` ` + onlyDna + `</label>
+               
+                     </div>
+                  <div class="col-sm ">
+                  
+                    <div class="hat">
+                        <div class="hatlogo">
+                          <span id="dnahat"></span>
+                        </div>
+                        <div class="hatinside">
+                        </div>
+                      </div>
+              
+                      <div class="cat">
+              
+                        <div class="ears">
+              
+                          <div class="ear left_ear">
+                          </div>
+                          <div class="ear right_ear">
+                          </div>
+              
+                        </div>
+              
+                        <div class="head">
+              
+                          <div class="eyes">
+                            <div class="eye1">
+                              <div class="pupils ">
+                                <div class="pupilsinside">
+                                </div>
+                              </div>
+                            </div>
+                            <div class="eye2">
+                              <div class="pupils">
+                                <div class="pupilsinside">
+                                </div>
+                              </div>
+                            </div>
+              
+              
+                            <div class="tongue">
+                              <div class="realnose"></div>
+                              <div class="tonguecenter"></div>
+                            </div>
+              
+                            <div class="left-mouth"></div>
+                            <div class="left-mouth2"></div>
+                            <div class="left-mouth3"></div>
+                            <div class="right-mouth"></div>
+                            <div class="right-mouth2"></div>
+                            <div class="right-mouth3"></div>
+                          </div>
+              
+                          <div class="body">
+                            <div class="bodyinner">
+                            
+                              <div class="arms">
+                                <div class="armsleft">
+                                  <div class="armsleftinside">
+              
+                                  </div>
+                                  <div class="armsleftinside2">
+              
+                                  </div>
+                                  <div class="armsleftinside3">
+              
+                                  </div>
+                                </div>
+                                <div class="armsright">
+                                  <div class="armsrighttinside">
+              
+                                  </div>
+                                  <div class="armsrightinside2">
+              
+                                  </div>
+                                  <div class="armsrightinside3">
+              
+                                  </div>
+                                </div>
+                              </div>
+              
+                            </div>
+                            <div class="legs">
+                              <div class="legleft">
+                                <div class="legleftinside"> </div>
+                                <div class="legleftinside2"> </div>
+                              </div>
+              
+                              <div class="legright">
+                                <div class="legrightinside"> </div>
+                              </div>
+                            </div>
+                          </div>
+              
+                          <div class="position" class="sunflower">
+                            <div class="trunk">
+              
+                              <div class="left-branch"></div>
+                              <div class="right-branch"></div>
+                            </div>
+                            <div class="vase"></div>
+                          </div>
+            
+                        </div>
+                        <div class="catTail">
+                          <span class="catColor"></span>
+                          <span class="catColor"></span>
+                          <span class="catColor"></span>
+                          <span class="catColor"></span>
+                          <span class="catColor"></span>
+                          <span class="catColor"></span>
+                          <span class="catColor"></span>
+                          <span class="catColor"></span>
+                          <span class="catColor"></span>
+                          <span class="catColor"></span>
+                          <span class="catColor"></span>
+                          <span class="catColor"></span>
+                          <span class="catColor"></span>
+                          <span class="catColor"></span>
+                          <span class="catColor"></span>
+                        </div>
+                    
+
+                       
+                  
+                </div>
+          
+                <br><br><br><br><br><br><br><br><br><br>
+              </div></div>`;
+
                     //append basic design all cats owner
                     $("#allKittiesIownDivs").append(htmlString);
+                    $("#allKittiesIcanBreedWithDivs").append(htmlString2);
 
                     //color coding for all elements of the individual cats of owner
                     $("#kittyId" + i)
@@ -349,8 +488,6 @@ function sendKittyToBlockChain() {
   });
 
 
-
-
   bornKittyPropertiesArray = [];
   myContract.events.Birth(
     {
@@ -366,7 +503,7 @@ function sendKittyToBlockChain() {
           result.returnValues.kittenId,
           result.returnValues.generation,
           result.returnValues.genes,
-          result.returnValues.MumId,
+          result.returnValues.mumId,
           result.returnValues.dadId,
           result.returnValues.owner
         );
@@ -444,16 +581,98 @@ function sendKittyToBlockChain() {
   console.log(bornKittyIdAndDna);
 
 }
-function breedNewKitty() {
-  let dadKittyDna = "0";
-  let mumKittyDna = "1";
+function breedNewKitty(mumId,dadId) {
+ 
+  const getMumDad = getOptions();
+  console.log(getMumDad);
 
-instance.methods.breed(dadKittyDna,mumKittyDna).send({}, function (err, txHash) {
-if  (err) {console.log(err);
+  let dadKittyDna = getMumDad[0];
+  let mumKittyDna = getMumDad[1];
+  console.log(dadKittyDna, mumKittyDna);
+
+  myContract.methods.getKitty(mumKittyDna).call({}, function (err, result) {
+    if (err) {
+      console.log(err );
+ 
+    } else {
+      console.log(result.genes);
+      let mumGenes = result.genes;
+      console.log(mumGenes);
+
+  }});
+
+  myContract.methods.getKitty(dadKittyDna).call({}, function (err, result) {
+    if (err) {
+      console.log(err);
+ 
+    } else {
+      console.log(result.genes);
+      let dadGenes = result.genes;
+
+  }});
+
+
+
+  instance.methods.breed(dadKittyDna,mumKittyDna).send({}, function (err, result) {
+if  (err) {console.log(err) ;
+  
 }
 
-else console.log(txHash);
+else 
+
+console.log(result);
+
 
 });
+
+
+
+myContract.methods.breed(dadKittyDna,mumKittyDna).call({}, function (err, result)  {
+  if  (err) {console.log(err);
+  
+  }
+     
+  else 
+    console.log(result);
+});
+
+
+
+bornKittyPropertiesArray = [];
+  myContract.events.Birth(
+    {
+      // Can use from block 0 but returns all previous births
+      //fromBlock: 0
+      fromBlock: "latest",
+      toBlock: "latest",
+    },
+    function (error, result) {
+      if (!error) {
+        console.log(result, "Kitty has been born");
+        console.log(
+          result.returnValues.kittenId,
+          result.returnValues.generation,
+          result.returnValues.genes,
+          result.returnValues.mumId,
+          result.returnValues.dadId,
+          result.returnValues.owner
+        );
+
+        alert("Your Kitty is born");
+        bornKittyPropertiesArray.push(
+          result.returnValues.kittenId,
+          result.returnValues.generation,
+          result.returnValues.genes,
+          result.returnValues.MumId,
+          result.returnValues.dadId,
+          result.returnValues.owner
+        );
+
+    
+      } else {
+        console.log(error);
+      }
+    }
+  );
 
 }

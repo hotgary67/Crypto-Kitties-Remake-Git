@@ -1,0 +1,53 @@
+
+
+/*
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+  
+  ul.mySection {
+    margin: 16px;
+    list-style: none;
+  }
+  
+  ul.mySection li {
+    margin: 0px 0px;
+    display: inline-block;
+  }
+  
+  ul.mySection input[type=checkbox] {
+    display: none;
+  }
+  
+  ul.mySection label {
+    display: table-cell;
+    cursor: pointer;
+    width: 200px;
+    height: 50px;
+    vertical-align: middle;
+    text-align: center;
+    background-color: rgba(0, 0, 255, 0.4);
+  }
+  
+  ul.mySection label:hover {
+    background-color: rgba(0, 0, 255, 1);
+    color: #fff;
+    transition: all 0.25s;
+  }
+  
+  ul.mySection input[type=checkbox]:checked~label {
+    background-color: rgba(50, 200, 50, 1);
+    position: absolute;
+    left: 171px;
+    height: 148px;
+  }
+  
+  input#btn {
+    margin: 8px 18px;
+    padding: 8px;
+  }
+
+
+*/
