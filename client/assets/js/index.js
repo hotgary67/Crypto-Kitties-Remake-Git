@@ -25,7 +25,7 @@ X. tijdelijk aanpassing die ik heb gemaakt is in de css, daar heb ik .vasetest a
 // ik begin met de Vase     <div class="vase"></div>
 
 var web3 = new Web3(Web3.givenProvider);
-var contractAddress = "0x3511b4C0380F98519B979E7aAB39457a82E0F27E";
+var contractAddress = "0x36ba281c381E3CA3621f2d060624AaDC33465DC6";
 var myContract = new web3.eth.Contract(abi, contractAddress);
 console.log(myContract);
 var user;
